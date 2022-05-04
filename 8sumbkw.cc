@@ -84,6 +84,7 @@ inline void matching(un_map& m1, int& nextkeylength, int& d, un_map& target, int
 int main()
 {
 	//PARAMETERS 
+	int runs = 5; // number of runs to see the average low weight sums.
 	int k = 4; // error weight
 	int n = 256; // 128
 	int m = 52; // 20
@@ -129,66 +130,51 @@ int main()
 		g = firekite(q, omega, n, m, d, k);
 	}
 
-	//out.open("second.txt");
-	//out1.open("final.txt");
-
-	un_map list;
-	un_map listFirst;
-	un_map listSecond;
+	for(int run = 0; run < runs; run++){
+		un_map list;
+		un_map listFirst;
+		un_map listSecond;
 
 
-	//Firekite generator starts here
-	key_length = cancel;
 	
-	for (int i = 1; i <= samples; i++)
-	{
-		g = firekite(q, omega, n, m, d, k);
-		mapsort(list, g, key_length);
-	}
-
-	count = 0;
-	for(auto check_num = list.begin(); check_num!= list.end();check_num++)
-	{
-		count+= (*check_num).second.size();
-	}
-	cout << count << endl;
+		//Firekite generator starts here{
+		key_length = cancel;
 	
-	nextkey_length = 2 * cancel;//eliminate c bits
-	matching(list, nextkey_length, d, listFirst, samples);
-	
-	count = 0;
-	for(auto check_num = listFirst.begin(); check_num!= listFirst.end();check_num++)
-	{
-		count+= (*check_num).second.size();
-	}
-	cout << "Check size: "<<count << endl;
-	
-
-	nextkey_length = 3 * cancel;
-	matching(listFirst, nextkey_length, d, listSecond, samples);//eliminate 2c bits
-	
-	count = 0;
-	for(auto check_num = listSecond.begin(); check_num!= listSecond.end();check_num++)
-	{
-		count+= (*check_num).second.size();
-	}
-	cout << "Check size: "<<count << endl;
-
-	for(auto map_it = listSecond.begin(); map_it!= listSecond.end(); map_it++)
-	{
-		//out << (*map_it).second;
-		for(int i =0; i< (*map_it).second.size()-1;i++)
+		for (int i = 1; i <= samples; i++)
 		{
-			for( int j = i+1 ; j< (*map_it).second.size();j++)
+			g = firekite(q, omega, n, m, d, k);
+			mapsort(list, g, key_length);
+		}
+
+	
+		nextkey_length = 2 * cancel;//eliminate c bits
+		matching(list, nextkey_length, d, listFirst, samples);
+	
+	
+
+		nextkey_length = 3 * cancel;
+		matching(listFirst, nextkey_length, d, listSecond, samples);//eliminate 2c bits
+	
+
+		for(auto map_it = listSecond.begin(); map_it!= listSecond.end(); map_it++)
+		{
+			//out << (*map_it).second;
+			for(int i =0; i< (*map_it).second.size()-1;i++)
 			{
-				auto sum = add((*map_it).second[i], (*map_it).second[j], d);
-				if(weight(sum,d) <= filterWeight && sum!= zero)
+				for( int j = i+1 ; j< (*map_it).second.size();j++)
 				{
-					//out1 << sum;
-					cout << "Low weight sum:" << endl << sum;
+					auto sum = add((*map_it).second[i], (*map_it).second[j], d);
+					if(weight(sum,d) <= filterWeight && sum!= zero)
+					{
+						count++;
+						cout << "Low weight sum:" << endl << sum;
+					}
 				}
 			}
 		}
+		key_length = 0;
+		nextkey_length = 0;
+		
 	}
-	
+	cout << count;
 }
