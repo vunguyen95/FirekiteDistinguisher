@@ -54,7 +54,7 @@ g++ -o 8sumbkw 8sumbkw.cc encodingerror.cc matrix.cc misc.cc
 
 ## Using different parameters
 
-Firekite parameters can be changed in the driver codes `4sumbkw.cc` or `8sumbkw.cc`. The parameters `c` is named as `cancel` should also be modified correspondingly (as specified in the submission *Attacks on the Firekite cipher* Sect. 4.1.)
+Firekite parameters can be changed in the driver codes `4sumbkw.cc` or `8sumbkw.cc`. The parameters `c` is named as `cancel` should also be modified correspondingly (as specified in the submission *Attacks on the Firekite cipher* Sect. 4.)
 
 
 
